@@ -196,7 +196,7 @@ class Cord19(datasets.GeneratorBasedBuilder):
 
                 if "embeddings" in self.config.name:
                     # synchronized reading of embeddings csv
-                    data = fh.readline().split(",")
+                    data = fh.readline(5_000_000).split(",")
                     doc_id = data[0]
 
                     doc_fields["doc_embeddings"] = []

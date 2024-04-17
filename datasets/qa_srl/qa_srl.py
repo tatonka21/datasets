@@ -133,16 +133,16 @@ class QaSrl(datasets.GeneratorBasedBuilder):
 
             qa_counter = 0
             # Start reading entries
-            sent_id, predicates_cnt = f.readline().rstrip("\n").split("\t")
+            sent_id, predicates_cnt = f.readline(5_000_000).rstrip("\n").split("\t")
             while True:
 
-                sentence = f.readline().rstrip("\n")
+                sentence = f.readline(5_000_000).rstrip("\n")
 
                 # Loop for every predicate
                 predicates_counter = int(predicates_cnt)
                 while predicates_counter != 0:
                     predicates_counter -= 1
-                    predicate_details = f.readline().rstrip("\n").split("\t")
+                    predicate_details = f.readline(5_000_000).rstrip("\n").split("\t")
                     predicate_idx, predicate, qa_pairs_cnt = (
                         predicate_details[0],
                         predicate_details[1],
@@ -152,7 +152,7 @@ class QaSrl(datasets.GeneratorBasedBuilder):
 
                     while pairs != 0:
                         pairs -= 1
-                        line = f.readline().rstrip("\n").split("\t")
+                        line = f.readline(5_000_000).rstrip("\n").split("\t")
                         question = line[:8]
                         answers_list = line[8:]
                         qa_counter += 1
@@ -172,8 +172,8 @@ class QaSrl(datasets.GeneratorBasedBuilder):
                         }
 
                 # Pass the blank line
-                f.readline()
-                nextline = f.readline()
+                f.readline(5_000_000)
+                nextline = f.readline(5_000_000)
                 if not nextline:
 
                     break
