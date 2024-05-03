@@ -34,7 +34,7 @@ def hf_retrieve_author(author_name, author_email) -> Tuple[str, str]:
     if author_email.endswith("@users.noreply.github.com"):
         try:
             github_username = author_email[: -len("@users.noreply.github.com")].split("+", 1)[-1]
-            response = requests.get(HUB_API_GH_TO_HF.format(github_username=github_username))
+            response = requests.get(HUB_API_GH_TO_HF.format(github_username=github_username), timeout=60)
             author_email = response.json()["user"] + "@users.noreply.huggingface.co"
         except Exception:
             pass
@@ -74,12 +74,12 @@ def create_remote_repo(dataset_name: str, token: str):
             "canonical": True,
             "type": "dataset",
         },
-    )
+    timeout=60)
     response.raise_for_status()
 
 
 def whoami(token: str) -> str:
-    response = requests.get(HUB_CANONICAL_WHOAMI, headers={"authorization": f"Bearer {token}"})
+    response = requests.get(HUB_CANONICAL_WHOAMI, headers={"authorization": f"Bearer {token}"}, timeout=60)
     response.raise_for_status()
     user_info = response.json()
     return user_info
