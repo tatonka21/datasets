@@ -1,11 +1,11 @@
 import json
 import os
-import random
 
 import datasets
+import secrets
 
 
-random.seed(42)  # This is important, to ensure the same order for concept sets as the official script.
+secrets.SystemRandom().seed(42)  # This is important, to ensure the same order for concept sets as the official script.
 
 _CITATION = """\
 @inproceedings{lin-etal-2020-commongen,
@@ -91,7 +91,7 @@ class CommonGen(datasets.GeneratorBasedBuilder):
                 data = json.loads(row)
 
                 rand_order = [word for word in data["concept_set"].split("#")]
-                random.shuffle(rand_order)
+                secrets.SystemRandom().shuffle(rand_order)
 
                 if split == "test":
                     yield idx, {
