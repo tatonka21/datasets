@@ -1,7 +1,6 @@
 import inspect
 import json
 import os
-import random
 import shutil
 import tempfile
 import weakref
@@ -19,6 +18,7 @@ from datasets.table import ConcatenationTable, InMemoryTable, MemoryMappedTable,
 from .info import DatasetInfo
 from .utils.logging import get_logger
 from .utils.py_utils import dumps
+import secrets
 
 
 if TYPE_CHECKING:
@@ -246,7 +246,7 @@ def generate_fingerprint(dataset) -> str:
 
 
 def generate_random_fingerprint(nbits=64) -> str:
-    return f"{random.getrandbits(nbits):0{nbits//4}x}"
+    return f"{secrets.SystemRandom().getrandbits(nbits):0{nbits//4}x}"
 
 
 def update_fingerprint(fingerprint, transform, transform_args):
