@@ -169,7 +169,7 @@ class WikiBio(datasets.GeneratorBasedBuilder):
             for id_, infobox, nb_lines, article_title in zip(id_src, infobox_src, nb_lines_src, article_title_src):
                 target_text = []
                 for _ in range(int(nb_lines)):
-                    target_text.append(sentences_src.readline())
+                    target_text.append(sentences_src.readline(5_000_000))
                 yield id_, {
                     "input_text": {"table": _get_table(infobox), "context": article_title},
                     "target_text": "".join(target_text),

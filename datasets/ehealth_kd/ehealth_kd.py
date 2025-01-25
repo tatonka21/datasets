@@ -146,12 +146,12 @@ class EhealthKD(datasets.GeneratorBasedBuilder):
 
             for annotation in annotations:
                 if annotation == last:
-                    sentence = txt_file.readline().strip()
+                    sentence = txt_file.readline(5_000_000).strip()
                     yield _id, {"sentence": sentence, "entities": entities, "relations": relations}
 
                 if annotation.startswith("T"):
                     if last_annotation == "relation":
-                        sentence = txt_file.readline().strip()
+                        sentence = txt_file.readline(5_000_000).strip()
                         yield _id, {"sentence": sentence, "entities": entities, "relations": relations}
                         _id += 1
                         entities = []

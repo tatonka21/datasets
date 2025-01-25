@@ -77,6 +77,6 @@ class ArsentdLev(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, path=None):
         """Yields examples."""
         with open(path, encoding="utf-8") as f:
-            f.readline()  # skip first line
+            f.readline(5_000_000)  # skip first line
             for idx, line in enumerate(f):
                 yield idx, {el[0]: el[1].strip() for el in zip(_FEATURES, line.split("\t"))}
