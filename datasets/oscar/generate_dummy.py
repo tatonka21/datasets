@@ -16,7 +16,7 @@ if __name__ == "__main__":
         # Get data url
         checksum_filename = _BASE_CHECKSUM_FILE_NAME.format(language=config.language)
         checksum_url = config.base_data_url + checksum_filename
-        checksum_file_content = requests.get(checksum_url).text.splitlines()
+        checksum_file_content = requests.get(checksum_url, timeout=60).text.splitlines()
         data_filename = checksum_file_content[0].split("\t")[0]
         data_url = config.base_data_url + data_filename
 
