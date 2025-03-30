@@ -6,9 +6,8 @@ import json
 import os
 from operator import itemgetter
 
-import requests
-
 import datasets
+from security import safe_requests
 
 
 # TODO(pg19): BibTeX citation
@@ -89,7 +88,7 @@ class Pg19(datasets.GeneratorBasedBuilder):
             payload = {"prefix": prefix}
 
             while True:
-                resp = requests.get(url, params={"pageToken": pageToken, **payload})
+                resp = safe_requests.get(url, params={"pageToken": pageToken, **payload})
                 json = resp.json()
                 yield json
 

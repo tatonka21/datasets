@@ -11,6 +11,7 @@ from typing import Dict, Optional, Set, Tuple
 from dotenv import load_dotenv
 from git import Repo
 from tqdm.contrib.concurrent import thread_map
+from security import safe_requests
 
 
 load_dotenv()
@@ -34,7 +35,7 @@ def hf_retrieve_author(author_name, author_email) -> Tuple[str, str]:
     if author_email.endswith("@users.noreply.github.com"):
         try:
             github_username = author_email[: -len("@users.noreply.github.com")].split("+", 1)[-1]
-            response = requests.get(HUB_API_GH_TO_HF.format(github_username=github_username))
+            response = safe_requests.get(HUB_API_GH_TO_HF.format(github_username=github_username))
             author_email = response.json()["user"] + "@users.noreply.huggingface.co"
         except Exception:
             pass
@@ -79,7 +80,7 @@ def create_remote_repo(dataset_name: str, token: str):
 
 
 def whoami(token: str) -> str:
-    response = requests.get(HUB_CANONICAL_WHOAMI, headers={"authorization": f"Bearer {token}"})
+    response = safe_requests.get(HUB_CANONICAL_WHOAMI, headers={"authorization": f"Bearer {token}"})
     response.raise_for_status()
     user_info = response.json()
     return user_info
