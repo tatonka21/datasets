@@ -27,6 +27,7 @@ from shutil import copyfile
 from lxml import etree
 
 import datasets
+import lxml.etree
 
 
 _FLUE_CITATION = """\
@@ -564,7 +565,7 @@ class WSDDatasetReader:
             sentences = self.read_sentences(d)
 
             # Parse xml
-            tree = etree.parse(xml_fpath)
+            tree = etree.parse(xml_fpath, parser=lxml.etree.XMLParser(resolve_entities=False))
             corpus = tree.getroot()
 
             # process data
@@ -631,7 +632,7 @@ class WSDDatasetReader:
         """Read sentences from xml file"""
 
         # Parse xml
-        tree = etree.parse(infile)
+        tree = etree.parse(infile, parser=lxml.etree.XMLParser(resolve_entities=False))
         corpus = tree.getroot()
 
         for text in corpus:
