@@ -116,7 +116,7 @@ class WiderFace(datasets.GeneratorBasedBuilder):
         with open(os.path.join(annot_dir, "wider_face_split", annot_fname), "r", encoding="utf-8") as f:
             idx = 0
             while True:
-                line = f.readline()
+                line = f.readline(5_000_000)
                 line = line.rstrip()
                 if not line.endswith(".jpg"):
                     break
@@ -124,14 +124,14 @@ class WiderFace(datasets.GeneratorBasedBuilder):
                 faces = []
                 if split != "test":
                     # Read number of bounding boxes
-                    nbboxes = int(f.readline())
+                    nbboxes = int(f.readline(5_000_000))
                     # Cases with 0 bounding boxes, still have one line with all zeros.
                     # So we have to read it and discard it.
                     if nbboxes == 0:
-                        f.readline()
+                        f.readline(5_000_000)
                     else:
                         for _ in range(nbboxes):
-                            line = f.readline()
+                            line = f.readline(5_000_000)
                             line = line.rstrip()
                             line_split = line.split()
                             assert len(line_split) == 10, f"Cannot parse line: {line_split}"
