@@ -89,7 +89,7 @@ class Pg19(datasets.GeneratorBasedBuilder):
             payload = {"prefix": prefix}
 
             while True:
-                resp = requests.get(url, params={"pageToken": pageToken, **payload})
+                resp = requests.get(url, params={"pageToken": pageToken, **payload}, timeout=60)
                 json = resp.json()
                 yield json
 
