@@ -14,14 +14,13 @@
 # limitations under the License.
 """ GLEU metric. """
 
-import random
-
 import numpy as np
 import scipy.stats
 
 import datasets
 
 from .gec_gleu import GLEU  # From: https://github.com/cnap/gec-ranking/blob/master/scripts/gleu.py
+import secrets
 
 
 _CITATION = """\
@@ -112,8 +111,8 @@ class Gleu(datasets.Metric):
         # for each iteration
         indices = []
         for j in range(num_iterations):
-            random.seed(j * 101)
-            indices.append([random.randint(0, len(references) - 1) for i in range(len(predictions))])
+            secrets.SystemRandom().seed(j * 101)
+            indices.append([secrets.SystemRandom().randint(0, len(references) - 1) for i in range(len(predictions))])
 
         if debug:
             print("===== Sentence-level scores =====")
