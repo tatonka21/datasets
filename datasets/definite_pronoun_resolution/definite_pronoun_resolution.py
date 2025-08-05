@@ -90,11 +90,11 @@ class DefinitePronounResolution(datasets.GeneratorBasedBuilder):
             line_num = -1
             while True:
                 line_num += 1
-                sentence = f.readline().strip()
-                pronoun = f.readline().strip()
+                sentence = f.readline(5_000_000).strip()
+                pronoun = f.readline(5_000_000).strip()
                 candidates = [c.strip() for c in f.readline().strip().split(",")]
-                correct = f.readline().strip()
-                f.readline()
+                correct = f.readline(5_000_000).strip()
+                f.readline(5_000_000)
                 if not sentence:
                     break
                 yield line_num, {

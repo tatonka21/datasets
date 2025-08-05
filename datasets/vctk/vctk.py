@@ -122,7 +122,7 @@ class VCTK(datasets.GeneratorBasedBuilder):
                         if not os.path.exists(wav_file):
                             continue
                         with open(os.path.join(speaker_txt_path, txt_file), encoding="utf-8") as text_file:
-                            text = text_file.readline().strip()
+                            text = text_file.readline(5_000_000).strip()
                             more_data = {
                                 "file": wav_file,
                                 "audio": wav_file,

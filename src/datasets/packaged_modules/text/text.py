@@ -60,7 +60,7 @@ class Text(datasets.ArrowBasedBuilder):
                         batch = f.read(self.config.chunksize)
                         if not batch:
                             break
-                        batch += f.readline()  # finish current line
+                        batch += f.readline(5_000_000)  # finish current line
                         batch = batch.splitlines(keepends=self.config.keep_linebreaks)
                         pa_table = pa.Table.from_arrays([pa.array(batch)], schema=schema)
                         # Uncomment for debugging (will print the Arrow table size and elements)
@@ -75,7 +75,7 @@ class Text(datasets.ArrowBasedBuilder):
                         batch += f.read(self.config.chunksize)
                         if not batch:
                             break
-                        batch += f.readline()  # finish current line
+                        batch += f.readline(5_000_000)  # finish current line
                         batch = batch.split("\n\n")
                         pa_table = pa.Table.from_arrays(
                             [pa.array([example for example in batch[:-1] if example])], schema=schema
