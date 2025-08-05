@@ -159,7 +159,7 @@ class MedicalDialog(datasets.GeneratorBasedBuilder):
                 des_flag = False
 
                 while True:
-                    line = f_in.readline()
+                    line = f_in.readline(5_000_000)
                     if not line:
                         break
 
@@ -185,14 +185,14 @@ class MedicalDialog(datasets.GeneratorBasedBuilder):
                         last_user = ""
                         last_conv = {"speaker": "", "utterance": ""}
                         while True:
-                            line = f_in.readline()
+                            line = f_in.readline(5_000_000)
                             if (not line) or (line in ["\n", "\n\r"]):
                                 break
                             else:
                                 if data_lang == "zh":  # Condition in chinese
                                     if line[:5] == "病情描述：":  # Hardcode alert!
                                         last_user = "病人"
-                                        sen = f_in.readline().rstrip()
+                                        sen = f_in.readline(5_000_000).rstrip()
                                         des_flag = True
 
                                 if data_lang == "en":
@@ -223,7 +223,7 @@ class MedicalDialog(datasets.GeneratorBasedBuilder):
                                 last_user = "Patient"
 
                             while True:
-                                line = f_in.readline()
+                                line = f_in.readline(5_000_000)
                                 if (not line) or (line in ["\n", "\n\r"]):
                                     conv_flag = False
                                     last_user = ""
@@ -244,7 +244,7 @@ class MedicalDialog(datasets.GeneratorBasedBuilder):
                                 if data_lang == "zh":
                                     if line[:3] == "病人：" or line[:3] == "医生：":  # Hardcode alert!
                                         user = line[:2]  # Hardcode alert!
-                                        line = f_in.readline()
+                                        line = f_in.readline(5_000_000)
                                         conv_flag = True
 
                                 # The elif block is to ensure that multi-line sentences are captured.
@@ -252,7 +252,7 @@ class MedicalDialog(datasets.GeneratorBasedBuilder):
                                 if data_lang == "en":
                                     if line.strip() == "Patient:" or line.strip() == "Doctor:":  # Hardcode alert!
                                         user = line.replace(":", "").rstrip()
-                                        line = f_in.readline()
+                                        line = f_in.readline(5_000_000)
                                         conv_flag = True
                                     elif line[:2] != "id":  # Hardcode alert!
                                         conv_flag = True
